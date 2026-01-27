@@ -9,6 +9,10 @@
 ### 🌟 项目简介
 **ShortcutCleaner** 是一个轻量级的 Windows 工具，专门用于清理文件夹中“失效”的快捷方式（.lnk）。当你卸载软件或移动文件后，残留的快捷方式往往会指向不存在的路径。本工具可以一键扫描并批量删除这些无用的图标，保持文件夹整洁。
 
+### ⚠️ 环境要求
+* **运行环境**：本工具需要 **.NET 10** 环境支持。
+* **自动引导**：如果您的电脑未安装 .NET 10，点击运行软件后会自动弹出微软官方下载界面，安装完成后即可正常使用。
+
 ### ✨ 核心功能
 * **快速扫描**：自动检测文件夹下所有指向无效路径的快捷方式。
 * **智能识别**：支持识别文件快捷方式与文件夹快捷方式。
@@ -27,6 +31,10 @@
 
 ### 🌟 Introduction
 **ShortcutCleaner** is a lightweight Windows utility designed to clean up "broken" shortcuts (.lnk). When software is uninstalled or files are moved, leftover shortcuts often point to non-existent paths. This tool helps you scan and batch-delete these useless icons to keep your folders tidy.
+
+### ⚠️ Requirements
+* **Runtime**: This tool requires the **.NET 10** runtime.
+* **Auto-Install**: If .NET 10 is not installed, clicking the app will automatically redirect you to the official Microsoft download page. Once installed, the app will run correctly.
 
 ### ✨ Key Features
 * **Quick Scan**: Automatically detects shortcuts pointing to invalid paths.
