@@ -45,6 +45,7 @@
             btnBrowse.TabIndex = 0;
             btnBrowse.Text = "选择目录";
             btnBrowse.UseVisualStyleBackColor = true;
+            btnBrowse.Click += btnBrowse_Click;
             // 
             // txtPath
             // 
@@ -61,6 +62,7 @@
             btnSearch.TabIndex = 2;
             btnSearch.Text = "开始搜索";
             btnSearch.UseVisualStyleBackColor = true;
+            btnSearch.Click += btnSearch_Click;
             // 
             // btnDelete
             // 
@@ -70,6 +72,7 @@
             btnDelete.TabIndex = 3;
             btnDelete.Text = "确认删除";
             btnDelete.UseVisualStyleBackColor = true;
+            btnDelete.Click += btnDelete_Click;
             // 
             // clbResults
             // 
@@ -88,6 +91,7 @@
             btnSelectAll.TabIndex = 5;
             btnSelectAll.Text = "全选";
             btnSelectAll.UseVisualStyleBackColor = true;
+            btnSelectAll.Click += btnSelectAll_Click;
             // 
             // btnInvert
             // 
@@ -97,6 +101,7 @@
             btnInvert.TabIndex = 6;
             btnInvert.Text = "反选";
             btnInvert.UseVisualStyleBackColor = true;
+            btnInvert.Click += btnInvert_Click;
             // 
             // Form1
             // 
