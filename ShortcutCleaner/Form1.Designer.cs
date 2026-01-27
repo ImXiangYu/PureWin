@@ -76,6 +76,7 @@
             // 
             // clbResults
             // 
+            clbResults.CheckOnClick = true;
             clbResults.FormattingEnabled = true;
             clbResults.Location = new Point(369, 134);
             clbResults.Name = "clbResults";
