@@ -1,4 +1,4 @@
-namespace ShortcutCleaner
+namespace PureWin
 {
     internal static class Program
     {

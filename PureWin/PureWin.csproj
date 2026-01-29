@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <ApplicationIcon>ShortcutCleaner.ico</ApplicationIcon>
+    <ApplicationIcon>PureWin.ico</ApplicationIcon>
 	<PublishSingleFile>true</PublishSingleFile>
 	<SelfContained>false</SelfContained>
 	<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="ShortcutCleaner.ico" />
+    <Content Include="PureWin.ico" />
   </ItemGroup>
 
 </Project>
