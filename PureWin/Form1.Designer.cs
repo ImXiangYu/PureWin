@@ -1,4 +1,4 @@
-﻿namespace ShortcutCleaner
+﻿namespace PureWin
 {
     partial class Form1
     {
@@ -35,6 +35,8 @@
             clbResults = new CheckedListBox();
             btnSelectAll = new Button();
             btnInvert = new Button();
+            checkBoxShortcut = new CheckBox();
+            checkBoxFolder = new CheckBox();
             SuspendLayout();
             // 
             // btnBrowse
@@ -104,11 +106,37 @@
             btnInvert.UseVisualStyleBackColor = true;
             btnInvert.Click += btnInvert_Click;
             // 
+            // checkBoxShortcut
+            // 
+            checkBoxShortcut.AutoSize = true;
+            checkBoxShortcut.Checked = true;
+            checkBoxShortcut.CheckState = CheckState.Checked;
+            checkBoxShortcut.Location = new Point(48, 107);
+            checkBoxShortcut.Name = "checkBoxShortcut";
+            checkBoxShortcut.Size = new Size(75, 21);
+            checkBoxShortcut.TabIndex = 7;
+            checkBoxShortcut.Text = "快捷方式";
+            checkBoxShortcut.UseVisualStyleBackColor = true;
+            checkBoxShortcut.CheckedChanged += checkBoxShortcut_CheckedChanged;
+            // 
+            // checkBoxFolder
+            // 
+            checkBoxFolder.AutoSize = true;
+            checkBoxFolder.Location = new Point(180, 107);
+            checkBoxFolder.Name = "checkBoxFolder";
+            checkBoxFolder.Size = new Size(75, 21);
+            checkBoxFolder.TabIndex = 8;
+            checkBoxFolder.Text = "空文件夹";
+            checkBoxFolder.UseVisualStyleBackColor = true;
+            checkBoxFolder.CheckedChanged += checkBoxFolder_CheckedChanged;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(checkBoxFolder);
+            Controls.Add(checkBoxShortcut);
             Controls.Add(btnInvert);
             Controls.Add(btnSelectAll);
             Controls.Add(clbResults);
@@ -118,7 +146,7 @@
             Controls.Add(btnBrowse);
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "快捷方式清理助手";
+            Text = "PureWin";
             ResumeLayout(false);
             PerformLayout();
         }
@@ -132,5 +160,7 @@
         private CheckedListBox clbResults;
         private Button btnSelectAll;
         private Button btnInvert;
+        private CheckBox checkBoxShortcut;
+        private CheckBox checkBoxFolder;
     }
 }
