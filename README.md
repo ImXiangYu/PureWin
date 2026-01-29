@@ -4,6 +4,10 @@
 
 [简体中文](#简体中文) | [English](#English)
 
+![展示图片1](https://s2.loli.net/2026/01/29/RH3reg1V5xdyJb9.png)
+
+![展示图片2](https://s2.loli.net/2026/01/29/cLGzhVPBX8OQrS9.png)
+
 ---
 
 ## 简体中文
