@@ -1,4 +1,6 @@
-# ShortcutCleaner 🚀
+# PureWin 🚀
+
+**让您的 Windows 保持纯净与整洁**
 
 [简体中文](#简体中文) | [English](#English)
 
@@ -6,44 +8,48 @@
 
 ## 简体中文
 
-### 🌟 项目简介
-**ShortcutCleaner** 是一个轻量级的 Windows 工具，专门用于清理文件夹中“失效”的快捷方式（.lnk）。当你卸载软件或移动文件后，残留的快捷方式往往会指向不存在的路径。本工具可以一键扫描并批量删除这些无用的图标，保持文件夹整洁。
+### 🌟 为什么选择 PureWin？
+随着时间的推移，Windows 系统中会堆积大量的“垃圾”：卸载软件后留下的**失效快捷方式**，以及层层嵌套的**空文件夹**。PureWin 旨在通过极简的操作，帮您快速除尘，找回清爽的目录结构。
 
-### ⚠️ 环境要求
-* **运行环境**：本工具需要 **.NET 10** 环境支持。
-* **自动引导**：如果您的电脑未安装 .NET 10，点击运行软件后会自动弹出微软官方下载界面，安装完成后即可正常使用。
+### ⚠️ 运行环境
+* 本工具需要 **.NET 10** 环境。
+* **智能引导**：若您的电脑未安装该环境，启动时将自动引导至微软官方下载页面，安装后即可使用。
 
 ### ✨ 核心功能
-* **快速扫描**：自动检测文件夹下所有指向无效路径的快捷方式。
-* **智能识别**：支持识别文件快捷方式与文件夹快捷方式。
-* **便捷交互**：支持“单击勾选”、全选与反选。
-* **绿色免安装**：单文件 `.exe` 设计，解压即用，随处运行。
+* **失效快捷方式清理**：深度扫描并识别指向不存在路径的 `.lnk` 图标。
+* **空文件夹扫描**：一键揪出那些没有任何文件、徒增视觉干扰的空目录。
+* **极简交互**：
+    * **即点即选**：无需繁琐双击，直接点击即可勾选。
+    * **灵活控制**：支持全选、反选，按需清理。
+* **绿色纯净**：单文件 `.exe` 格式，无需安装，无后台残留，即开即用。
 
-### 🚀 如何使用
-1. 前往 **Releases** 页面下载最新的程序文件。
-2. 运行程序，选择需要清理的文件夹（默认显示程序当前所在位置）。
-3. 点击 **开始搜索**。
-4. 勾选需要清理的项，点击 **确认删除**。
+### 🚀 快速上手
+1. 在 **Releases** 页面下载 `PureWin.exe`。
+2. 运行程序，选择您想要清理的目录（默认已为您定位至当前路径）。
+3. 勾选需要执行的任务（快捷方式 / 空文件夹）。
+4. 点击 **开始搜索**，确认扫描结果后点击 **确认删除**。
 
 ---
 
 ## English
 
-### 🌟 Introduction
-**ShortcutCleaner** is a lightweight Windows utility designed to clean up "broken" shortcuts (.lnk). When software is uninstalled or files are moved, leftover shortcuts often point to non-existent paths. This tool helps you scan and batch-delete these useless icons to keep your folders tidy.
+### 🌟 Why PureWin?
+Over time, Windows accumulates "digital dust": **broken shortcuts** left behind by uninstalled apps and deeply nested **empty folders**. PureWin is designed to help you declutter with minimal effort, restoring a clean and organized directory structure.
 
 ### ⚠️ Requirements
-* **Runtime**: This tool requires the **.NET 10** runtime.
-* **Auto-Install**: If .NET 10 is not installed, clicking the app will automatically redirect you to the official Microsoft download page. Once installed, the app will run correctly.
+* Requires **.NET 10** runtime.
+* **Auto-Guide**: If .NET 10 is missing, the app will automatically redirect you to the official Microsoft download page upon startup.
 
 ### ✨ Key Features
-* **Quick Scan**: Automatically detects shortcuts pointing to invalid paths.
-* **Smart Recognition**: Identifies both file and folder shortcut targets.
-* **Easy Interaction**: Supports "Click-to-Check", Select All, and Invert Selection.
-* **Portable**: Single standalone `.exe`—no installation required.
+* **Broken Shortcut Cleanup**: Scans and identifies `.lnk` files pointing to non-existent paths.
+* **Empty Folder Detection**: Easily finds folders containing no files or subfolders.
+* **Streamlined UI**:
+    * **Click-to-Check**: Select items with a single click—no tedious double-clicking.
+    * **Batch Control**: Supports Select All and Invert Selection for flexible management.
+* **Truly Portable**: Single `.exe` file—no installation, no background processes, just run and go.
 
 ### 🚀 How to Use
-1. Download the latest version from the **Releases** page.
-2. Run the application and select the target folder.
-3. Click **Search** to find broken shortcuts.
-4. Select the items you wish to remove and click **Confirm Delete**.
+1. Download `PureWin.exe` from the **Releases** page.
+2. Run the app and select the target directory.
+3. Choose your tasks (Shortcuts / Empty Folders).
+4. Click **Search**, review the results, and hit **Confirm Delete**.
