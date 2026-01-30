@@ -18,11 +18,6 @@
 * **空文件夹智能识别**：一键揪出没有任何文件、或仅包含空子目录的文件夹。
 * **资源管理器预览**：对扫描结果不确定？支持直接在资源管理器中定位文件，确认后再删不迟。
 * **异步高效搜索**：全新异步扫描机制，配合**实时进度条**显示，处理大容量磁盘不再“假死”。
-* **极简交互**：
-* **即点即选**：无需繁琐双击，直接点击即可勾选。
-* **灵活控制**：支持全选、反选，按需清理。
-
-
 * **绿色纯净**：单文件 `.exe` 格式，无需安装，无后台残留，即开即用。
 
 ### ⚠️ 运行环境
@@ -52,11 +47,6 @@ Over time, Windows accumulates "digital dust": **broken shortcuts** from uninsta
 * **Smart Empty Folder Detection**: Easily finds folders containing no files, including those with nested empty subfolders.
 * **Explorer Preview**: Not sure about a result? Right-click or use the preview feature to locate items in Windows Explorer before deleting.
 * **Async Search with Progress**: Powered by an asynchronous engine with a **real-time progress bar**, ensuring a smooth experience even on massive drives.
-* **Streamlined UI**:
-* **Click-to-Check**: Select items with a single click—no tedious double-clicking.
-* **Batch Control**: Supports Select All and Invert Selection.
-
-
 * **Truly Portable**: Single `.exe` file—no installation, no background processes.
 
 ### ⚠️ Requirements
