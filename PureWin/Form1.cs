@@ -25,90 +25,117 @@ namespace PureWin
         }
 
         // “开始搜索”按钮逻辑
-        private void btnSearch_Click(object sender, EventArgs e)
+        // 修改为 async 异步方法
+        private async void btnSearch_Click(object sender, EventArgs e)
         {
-            clbResults.Items.Clear();
             string path = txtPath.Text;
-
             if (!Directory.Exists(path))
             {
                 MessageBox.Show("路径不存在！");
                 return;
             }
 
-            // 确定搜索范围
-            SearchOption opt = cbRecursive.Checked ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
-
-            // 初始化进度条
-            pbScan.Value = 0;
-            pbScan.Maximum = 100;
-
             if (!checkBoxShortcut.Checked && !checkBoxFolder.Checked)
             {
-                MessageBox.Show("请至少勾选一个搜索选项（快捷方式或空文件夹）");
+                MessageBox.Show("请至少勾选一个搜索选项");
                 return;
             }
 
-            // --- 1. 搜索失效快捷方式 ---
-            if (checkBoxShortcut.Checked)
-            {
-                try
-                {
-                    string[] files = Directory.GetFiles(path, "*.lnk", opt);
-                    if (files.Length > 0)
-                    {
-                        pbScan.Maximum = files.Length; // 临时设为文件总数
-                        WshShell shell = new WshShell();
-                        foreach (var file in files)
-                        {
-                            try
-                            {
-                                IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(file);
-                                string target = shortcut.TargetPath;
-                                if (string.IsNullOrEmpty(target) || (!System.IO.File.Exists(target) && !Directory.Exists(target)))
-                                {
-                                    clbResults.Items.Add(file, true);
-                                }
-                            }
-                            catch { /* 忽略损坏的快捷方式文件 */ }
-                            pbScan.PerformStep(); // 进度条走一格
-                        }
-                    }
-                }
-                catch (Exception ex) { MessageBox.Show("快捷方式搜索失败: " + ex.Message); }
-            }
+            // UI 初始化
+            clbResults.Items.Clear();
+            pbScan.Value = 0;
+            pbScan.Style = ProgressBarStyle.Marquee; // 搜索初期不知道总数，先用跑马灯效果
+            btnSearch.Enabled = false; // 禁用按钮防止重复点击
 
-            // --- 2. 搜索空文件夹 ---
-            if (checkBoxFolder.Checked)
+            // 使用 Task.Run 在后台线程执行搜索
+            await Task.Run(() =>
             {
-                try
-                {
-                    // 获取所有目录（根据是否递归）
-                    string[] dirs = Directory.GetDirectories(path, "*", opt);
-                    foreach (var dir in dirs)
-                    {
-                        // 安全检查：由于递归可能搜到系统保护目录，加个 try
-                        try
-                        {
-                            if (Directory.GetFiles(dir).Length == 0 && Directory.GetDirectories(dir).Length == 0)
-                            {
-                                clbResults.Items.Add(dir, true);
-                            }
-                        }
-                        catch { continue; }
-                    }
-                }
-                catch (Exception ex) { MessageBox.Show("文件夹搜索失败: " + ex.Message); }
-            }
+                SearchLogic(path, cbRecursive.Checked);
+            });
 
-            pbScan.Value = pbScan.Maximum; // 扫完直接拉满
+            // 搜索完成后恢复 UI
+            pbScan.Style = ProgressBarStyle.Blocks;
+            pbScan.Value = pbScan.Maximum;
+            btnSearch.Enabled = true;
 
             if (clbResults.Items.Count == 0)
-            {
                 MessageBox.Show("未发现匹配的项目");
-            }
         }
 
+        // 递归搜索逻辑：解决权限拒绝和 UI 卡死
+        private void SearchLogic(string rootPath, bool recursive)
+        {
+            WshShell shell = new WshShell();
+
+            // 定义一个内部递归函数
+            void Traverse(string currentPath)
+            {
+                try
+                {
+                    // 1. 处理当前文件夹下的快捷方式
+                    if (checkBoxShortcut.Checked)
+                    {
+                        string[] files = Directory.GetFiles(currentPath, "*.lnk");
+                        foreach (var file in files)
+                        {
+                            CheckShortcut(file, shell);
+                        }
+                    }
+
+                    // 2. 处理当前路径下的子文件夹
+                    string[] subDirs = Directory.GetDirectories(currentPath);
+
+                    foreach (var dir in subDirs)
+                    {
+                        // 如果勾选了搜索空文件夹
+                        if (checkBoxFolder.Checked)
+                        {
+                            CheckEmptyFolder(dir);
+                        }
+
+                        // 如果开启了递归，则继续深入
+                        if (recursive)
+                        {
+                            Traverse(dir);
+                        }
+                    }
+                }
+                catch (UnauthorizedAccessException) { /* 自动跳过无权访问的文件夹 */ }
+                catch (Exception ex) { Console.WriteLine("错误: " + ex.Message); }
+            }
+
+            Traverse(rootPath);
+        }
+
+        // 检查快捷方式是否失效
+        private void CheckShortcut(string file, WshShell shell)
+        {
+            try
+            {
+                IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(file);
+                string target = shortcut.TargetPath;
+                if (string.IsNullOrEmpty(target) || (!System.IO.File.Exists(target) && !Directory.Exists(target)))
+                {
+                    // 异步跨线程更新 UI
+                    this.Invoke(new Action(() => clbResults.Items.Add(file, true)));
+                }
+            }
+            catch { }
+        }
+
+        // 检查是否为空文件夹
+        private void CheckEmptyFolder(string dir)
+        {
+            try
+            {
+                // 如果该目录下既没有文件也没有文件夹
+                if (Directory.GetFiles(dir).Length == 0 && Directory.GetDirectories(dir).Length == 0)
+                {
+                    this.Invoke(new Action(() => clbResults.Items.Add(dir, true)));
+                }
+            }
+            catch { }
+        }
         private void btnDelete_Click(object sender, EventArgs e)
         {
             if (clbResults.CheckedItems.Count == 0)
