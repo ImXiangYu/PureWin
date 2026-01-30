@@ -2,7 +2,7 @@
 
 **让您的 Windows 保持纯净与整洁 | Keep your Windows lean and clean**
 
-[简体中文](## 简体中文) | [English](## English)
+[简体中文](#简体中文) | [English](#English)
 
 ---
 
