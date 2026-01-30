@@ -99,6 +99,7 @@
             // 
             // btnSelectAll
             // 
+            btnSelectAll.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btnSelectAll.Location = new Point(713, 134);
             btnSelectAll.Name = "btnSelectAll";
             btnSelectAll.Size = new Size(75, 36);
@@ -109,6 +110,7 @@
             // 
             // btnInvert
             // 
+            btnInvert.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btnInvert.Location = new Point(713, 195);
             btnInvert.Name = "btnInvert";
             btnInvert.Size = new Size(75, 36);
