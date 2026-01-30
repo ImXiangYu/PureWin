@@ -222,23 +222,26 @@ namespace PureWin
 
         private void clbResults_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            // 获取双击时鼠标所在位置的索引
             int index = clbResults.IndexFromPoint(e.Location);
-            if (index != System.Windows.Forms.ListBox.NoMatches)
+            if (index != ListBox.NoMatches)
             {
-                string itemPath = clbResults.Items[index].ToString();
+                // 使用 ?. 和 ?? 确保 itemPath 不为 null，解决编译警告
+                string? itemPath = clbResults.Items[index]?.ToString();
 
-                try
+                if (!string.IsNullOrEmpty(itemPath))
                 {
-                    // 如果是文件，打开并定位到该文件；如果是文件夹，直接打开文件夹
-                    if (System.IO.File.Exists(itemPath) || System.IO.Directory.Exists(itemPath))
+                    try
                     {
-                        System.Diagnostics.Process.Start("explorer.exe", $"/select,\"{itemPath}\"");
+                        // 检查路径是否存在
+                        if (System.IO.File.Exists(itemPath) || Directory.Exists(itemPath))
+                        {
+                            System.Diagnostics.Process.Start("explorer.exe", $"/select,\"{itemPath}\"");
+                        }
                     }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"无法打开路径: {ex.Message}");
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"无法打开路径: {ex.Message}");
+                    }
                 }
             }
         }
