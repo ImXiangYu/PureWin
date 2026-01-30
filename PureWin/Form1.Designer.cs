@@ -37,6 +37,10 @@
             btnInvert = new Button();
             checkBoxShortcut = new CheckBox();
             checkBoxFolder = new CheckBox();
+            groupBox1 = new GroupBox();
+            cbRecursive = new CheckBox();
+            pbScan = new ProgressBar();
+            groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // btnBrowse
@@ -58,9 +62,9 @@
             // 
             // btnSearch
             // 
-            btnSearch.Location = new Point(48, 134);
+            btnSearch.Location = new Point(55, 314);
             btnSearch.Name = "btnSearch";
-            btnSearch.Size = new Size(207, 74);
+            btnSearch.Size = new Size(255, 40);
             btnSearch.TabIndex = 2;
             btnSearch.Text = "开始搜索";
             btnSearch.UseVisualStyleBackColor = true;
@@ -68,12 +72,13 @@
             // 
             // btnDelete
             // 
-            btnDelete.Location = new Point(48, 255);
+            btnDelete.BackColor = Color.White;
+            btnDelete.Location = new Point(713, 314);
             btnDelete.Name = "btnDelete";
-            btnDelete.Size = new Size(207, 74);
+            btnDelete.Size = new Size(75, 40);
             btnDelete.TabIndex = 3;
             btnDelete.Text = "确认删除";
-            btnDelete.UseVisualStyleBackColor = true;
+            btnDelete.UseVisualStyleBackColor = false;
             btnDelete.Click += btnDelete_Click;
             // 
             // clbResults
@@ -90,7 +95,7 @@
             // 
             btnSelectAll.Location = new Point(713, 134);
             btnSelectAll.Name = "btnSelectAll";
-            btnSelectAll.Size = new Size(75, 23);
+            btnSelectAll.Size = new Size(75, 36);
             btnSelectAll.TabIndex = 5;
             btnSelectAll.Text = "全选";
             btnSelectAll.UseVisualStyleBackColor = true;
@@ -98,9 +103,9 @@
             // 
             // btnInvert
             // 
-            btnInvert.Location = new Point(713, 185);
+            btnInvert.Location = new Point(713, 195);
             btnInvert.Name = "btnInvert";
-            btnInvert.Size = new Size(75, 23);
+            btnInvert.Size = new Size(75, 36);
             btnInvert.TabIndex = 6;
             btnInvert.Text = "反选";
             btnInvert.UseVisualStyleBackColor = true;
@@ -111,7 +116,7 @@
             checkBoxShortcut.AutoSize = true;
             checkBoxShortcut.Checked = true;
             checkBoxShortcut.CheckState = CheckState.Checked;
-            checkBoxShortcut.Location = new Point(48, 107);
+            checkBoxShortcut.Location = new Point(23, 34);
             checkBoxShortcut.Name = "checkBoxShortcut";
             checkBoxShortcut.Size = new Size(75, 21);
             checkBoxShortcut.TabIndex = 7;
@@ -122,7 +127,7 @@
             // checkBoxFolder
             // 
             checkBoxFolder.AutoSize = true;
-            checkBoxFolder.Location = new Point(180, 107);
+            checkBoxFolder.Location = new Point(23, 61);
             checkBoxFolder.Name = "checkBoxFolder";
             checkBoxFolder.Size = new Size(75, 21);
             checkBoxFolder.TabIndex = 8;
@@ -130,13 +135,42 @@
             checkBoxFolder.UseVisualStyleBackColor = true;
             checkBoxFolder.CheckedChanged += checkBoxFolder_CheckedChanged;
             // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(cbRecursive);
+            groupBox1.Controls.Add(checkBoxShortcut);
+            groupBox1.Controls.Add(checkBoxFolder);
+            groupBox1.Location = new Point(55, 134);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(255, 133);
+            groupBox1.TabIndex = 9;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "选择要清理的项目";
+            // 
+            // cbRecursive
+            // 
+            cbRecursive.AutoSize = true;
+            cbRecursive.Location = new Point(23, 88);
+            cbRecursive.Name = "cbRecursive";
+            cbRecursive.Size = new Size(99, 21);
+            cbRecursive.TabIndex = 9;
+            cbRecursive.Text = "包含子文件夹";
+            cbRecursive.UseVisualStyleBackColor = true;
+            // 
+            // pbScan
+            // 
+            pbScan.Location = new Point(55, 391);
+            pbScan.Name = "pbScan";
+            pbScan.Size = new Size(636, 23);
+            pbScan.TabIndex = 10;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(checkBoxFolder);
-            Controls.Add(checkBoxShortcut);
+            Controls.Add(pbScan);
+            Controls.Add(groupBox1);
             Controls.Add(btnInvert);
             Controls.Add(btnSelectAll);
             Controls.Add(clbResults);
@@ -147,6 +181,8 @@
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "PureWin";
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -162,5 +198,8 @@
         private Button btnInvert;
         private CheckBox checkBoxShortcut;
         private CheckBox checkBoxFolder;
+        private GroupBox groupBox1;
+        private CheckBox cbRecursive;
+        private ProgressBar pbScan;
     }
 }

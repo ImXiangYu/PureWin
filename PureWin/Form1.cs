@@ -36,6 +36,13 @@ namespace PureWin
                 return;
             }
 
+            // 确定搜索范围
+            SearchOption opt = cbRecursive.Checked ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+
+            // 初始化进度条
+            pbScan.Value = 0;
+            pbScan.Maximum = 100;
+
             if (!checkBoxShortcut.Checked && !checkBoxFolder.Checked)
             {
                 MessageBox.Show("请至少勾选一个搜索选项（快捷方式或空文件夹）");
@@ -47,25 +54,28 @@ namespace PureWin
             {
                 try
                 {
-                    string[] files = Directory.GetFiles(path, "*.lnk");
-                    WshShell shell = new WshShell();
-
-                    foreach (var file in files)
+                    string[] files = Directory.GetFiles(path, "*.lnk", opt);
+                    if (files.Length > 0)
                     {
-                        try
+                        pbScan.Maximum = files.Length; // 临时设为文件总数
+                        WshShell shell = new WshShell();
+                        foreach (var file in files)
                         {
-                            IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(file);
-                            string target = shortcut.TargetPath;
-
-                            if (string.IsNullOrEmpty(target) || (!System.IO.File.Exists(target) && !Directory.Exists(target)))
+                            try
                             {
-                                clbResults.Items.Add(file, true);
+                                IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(file);
+                                string target = shortcut.TargetPath;
+                                if (string.IsNullOrEmpty(target) || (!System.IO.File.Exists(target) && !Directory.Exists(target)))
+                                {
+                                    clbResults.Items.Add(file, true);
+                                }
                             }
+                            catch { /* 忽略损坏的快捷方式文件 */ }
+                            pbScan.PerformStep(); // 进度条走一格
                         }
-                        catch { /* 跳过无法解析的快捷方式 */ }
                     }
                 }
-                catch (Exception ex) { MessageBox.Show("搜索快捷方式时出错: " + ex.Message); }
+                catch (Exception ex) { MessageBox.Show("快捷方式搜索失败: " + ex.Message); }
             }
 
             // --- 2. 搜索空文件夹 ---
@@ -73,22 +83,25 @@ namespace PureWin
             {
                 try
                 {
-                    // 获取当前路径下的所有一级子文件夹
-                    string[] dirs = Directory.GetDirectories(path);
-
+                    // 获取所有目录（根据是否递归）
+                    string[] dirs = Directory.GetDirectories(path, "*", opt);
                     foreach (var dir in dirs)
                     {
-                        // 判断文件夹内是否既没有文件也没有子文件夹
-                        bool isEmpty = Directory.GetFiles(dir).Length == 0 && Directory.GetDirectories(dir).Length == 0;
-
-                        if (isEmpty)
+                        // 安全检查：由于递归可能搜到系统保护目录，加个 try
+                        try
                         {
-                            clbResults.Items.Add(dir, true);
+                            if (Directory.GetFiles(dir).Length == 0 && Directory.GetDirectories(dir).Length == 0)
+                            {
+                                clbResults.Items.Add(dir, true);
+                            }
                         }
+                        catch { continue; }
                     }
                 }
-                catch (Exception ex) { MessageBox.Show("搜索文件夹时出错: " + ex.Message); }
+                catch (Exception ex) { MessageBox.Show("文件夹搜索失败: " + ex.Message); }
             }
+
+            pbScan.Value = pbScan.Maximum; // 扫完直接拉满
 
             if (clbResults.Items.Count == 0)
             {
@@ -96,7 +109,6 @@ namespace PureWin
             }
         }
 
-        // “确认删除”按钮逻辑
         private void btnDelete_Click(object sender, EventArgs e)
         {
             if (clbResults.CheckedItems.Count == 0)
@@ -105,7 +117,7 @@ namespace PureWin
                 return;
             }
 
-            var result = MessageBox.Show($"确定要删除这 {clbResults.CheckedItems.Count} 个项目吗？", "确认", MessageBoxButtons.YesNo);
+            var result = MessageBox.Show($"确定要删除这 {clbResults.CheckedItems.Count} 个项目吗？\n警告：删除后无法撤销。", "确认删除", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
             if (result == DialogResult.Yes)
             {
@@ -114,28 +126,51 @@ namespace PureWin
                                     .Where(s => !string.IsNullOrEmpty(s))
                                     .ToList();
 
+                // --- 新增：定义一个计数器 ---
+                int successCount = 0;
+
+                // 重置进度条显示删除进度
+                pbScan.Value = 0;
+                pbScan.Maximum = itemsToDelete.Count;
+
                 foreach (var item in itemsToDelete)
                 {
-                    if (item == null) continue; // 显式排除 null
+                    if (item == null) continue;
 
                     try
                     {
                         if (System.IO.File.Exists(item))
                         {
-                            System.IO.File.Delete(item); // 删除文件
+                            System.IO.File.Delete(item);
+                            successCount++; // 成功后计数加 1
                         }
-                        else if (Directory.Exists(item))
+                        else if (System.IO.Directory.Exists(item))
                         {
-                            Directory.Delete(item); // 删除文件夹
+                            // 再次检查确认文件夹确实为空，防止搜索后又有新文件存入
+                            if (System.IO.Directory.GetFiles(item).Length == 0 &&
+                                System.IO.Directory.GetDirectories(item).Length == 0)
+                            {
+                                System.IO.Directory.Delete(item);
+                                successCount++; // 成功后计数加 1
+                            }
                         }
+
+                        // 从 UI 列表中移除（注意：这里必须通过这种方式从后往前或安全移除）
                         clbResults.Items.Remove(item);
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show($"删除失败: {item}\n错误: {ex.Message}");
+                        // 删除失败时不弹窗（防止循环中弹出几百个窗），改为在控制台输出或继续
+                        Console.WriteLine($"删除失败: {item}, 错误: {ex.Message}");
                     }
+
+                    pbScan.PerformStep();
+                    Application.DoEvents();
                 }
-                MessageBox.Show("清理完毕！", "成功");
+
+                pbScan.Value = 0; // 清理完重置
+                // --- 修改：弹窗提示具体的清理数量 ---
+                MessageBox.Show($"清理完毕！已成功清理 {successCount} 个项目。", "成功");
             }
         }
 
@@ -153,7 +188,6 @@ namespace PureWin
         {
             for (int i = 0; i < clbResults.Items.Count; i++)
             {
-                // 如果当前是勾选的，就设为不勾选，反之亦然
                 bool isChecked = clbResults.GetItemChecked(i);
                 clbResults.SetItemChecked(i, !isChecked);
             }
