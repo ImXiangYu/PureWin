@@ -90,6 +90,7 @@
             clbResults.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             clbResults.CheckOnClick = true;
             clbResults.FormattingEnabled = true;
+            clbResults.HorizontalScrollbar = true;
             clbResults.Location = new Point(369, 134);
             clbResults.Name = "clbResults";
             clbResults.Size = new Size(322, 220);

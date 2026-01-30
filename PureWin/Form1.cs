@@ -43,6 +43,8 @@ namespace PureWin
 
             // UI 初始化
             clbResults.Items.Clear();
+            // 新增：重置滚动条宽度
+            clbResults.HorizontalExtent = 0; 
             pbScan.Value = 0;
             pbScan.Style = ProgressBarStyle.Marquee; // 搜索初期不知道总数，先用跑马灯效果
             btnSearch.Enabled = false; // 禁用按钮防止重复点击
@@ -116,8 +118,8 @@ namespace PureWin
                 string target = shortcut.TargetPath;
                 if (string.IsNullOrEmpty(target) || (!System.IO.File.Exists(target) && !Directory.Exists(target)))
                 {
-                    // 异步跨线程更新 UI
-                    this.Invoke(new Action(() => clbResults.Items.Add(file, true)));
+                    // 安全更新 UI
+                    SafeAddResult(file);
                 }
             }
             catch { }
@@ -131,7 +133,7 @@ namespace PureWin
                 // 如果该目录下既没有文件也没有文件夹
                 if (Directory.GetFiles(dir).Length == 0 && Directory.GetDirectories(dir).Length == 0)
                 {
-                    this.Invoke(new Action(() => clbResults.Items.Add(dir, true)));
+                    SafeAddResult(dir);
                 }
             }
             catch { }
@@ -243,6 +245,29 @@ namespace PureWin
                         MessageBox.Show($"无法打开路径: {ex.Message}");
                     }
                 }
+            }
+        }
+
+        // 动态更新横向滚动条
+        private void SafeAddResult(string itemPath)
+        {
+            if (clbResults.InvokeRequired)
+            {
+                this.Invoke(new Action(() => SafeAddResult(itemPath)));
+                return;
+            }
+
+            // 1. 添加项目
+            clbResults.Items.Add(itemPath, true);
+
+            // 2. 计算宽度（使用 TextRenderer 更精准，且不需要手动释放 Graphics）
+            // 加上 30 像素以预留出 CheckBox 和边距的宽度
+            int itemWidth = TextRenderer.MeasureText(itemPath, clbResults.Font).Width + 30;
+
+            // 3. 如果当前项比之前的都宽，则更新滚动范围
+            if (itemWidth > clbResults.HorizontalExtent)
+            {
+                clbResults.HorizontalExtent = itemWidth;
             }
         }
 
