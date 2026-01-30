@@ -6,11 +6,11 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <ApplicationIcon>PureWin.ico</ApplicationIcon>
 	<PublishSingleFile>true</PublishSingleFile>
 	<SelfContained>false</SelfContained>
 	<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
 	<RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
+	<ApplicationIcon>PureWin.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
