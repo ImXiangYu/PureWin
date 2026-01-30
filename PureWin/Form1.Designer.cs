@@ -45,6 +45,7 @@
             // 
             // btnBrowse
             // 
+            btnBrowse.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btnBrowse.Location = new Point(713, 44);
             btnBrowse.Name = "btnBrowse";
             btnBrowse.Size = new Size(75, 23);
@@ -55,6 +56,7 @@
             // 
             // txtPath
             // 
+            txtPath.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             txtPath.Location = new Point(48, 44);
             txtPath.Name = "txtPath";
             txtPath.Size = new Size(643, 23);
@@ -62,6 +64,7 @@
             // 
             // btnSearch
             // 
+            btnSearch.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             btnSearch.Location = new Point(55, 314);
             btnSearch.Name = "btnSearch";
             btnSearch.Size = new Size(255, 40);
@@ -72,6 +75,7 @@
             // 
             // btnDelete
             // 
+            btnDelete.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btnDelete.BackColor = Color.White;
             btnDelete.Location = new Point(713, 314);
             btnDelete.Name = "btnDelete";
@@ -83,6 +87,7 @@
             // 
             // clbResults
             // 
+            clbResults.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             clbResults.CheckOnClick = true;
             clbResults.FormattingEnabled = true;
             clbResults.Location = new Point(369, 134);
@@ -90,6 +95,7 @@
             clbResults.Size = new Size(322, 220);
             clbResults.TabIndex = 4;
             clbResults.SelectedIndexChanged += clbResults_SelectedIndexChanged;
+            clbResults.MouseDoubleClick += clbResults_MouseDoubleClick;
             // 
             // btnSelectAll
             // 
@@ -159,6 +165,7 @@
             // 
             // pbScan
             // 
+            pbScan.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             pbScan.Location = new Point(55, 391);
             pbScan.Name = "pbScan";
             pbScan.Size = new Size(636, 23);
@@ -178,6 +185,7 @@
             Controls.Add(btnSearch);
             Controls.Add(txtPath);
             Controls.Add(btnBrowse);
+            MinimumSize = new Size(816, 489);
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "PureWin";

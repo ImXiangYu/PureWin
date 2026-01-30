@@ -193,6 +193,29 @@ namespace PureWin
             }
         }
 
+        private void clbResults_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            // 获取双击时鼠标所在位置的索引
+            int index = clbResults.IndexFromPoint(e.Location);
+            if (index != System.Windows.Forms.ListBox.NoMatches)
+            {
+                string itemPath = clbResults.Items[index].ToString();
+
+                try
+                {
+                    // 如果是文件，打开并定位到该文件；如果是文件夹，直接打开文件夹
+                    if (System.IO.File.Exists(itemPath) || System.IO.Directory.Exists(itemPath))
+                    {
+                        System.Diagnostics.Process.Start("explorer.exe", $"/select,\"{itemPath}\"");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"无法打开路径: {ex.Message}");
+                }
+            }
+        }
+
 
         private void clbResults_SelectedIndexChanged(object sender, EventArgs e)
         {
